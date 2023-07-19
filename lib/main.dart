@@ -19,6 +19,8 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> {
   var switchValue = false;
+  String test = 'hello';
+  Color _color = Colors.black12;
 
   // build 함수 재정의, 어떤 위젯을 만들건지 정의
   @override
@@ -34,17 +36,28 @@ class _MyApp extends State<MyApp> {
       // home : 첫 화면에 어떤 내용을 표시할지 결정
       home: Scaffold(
         body: Center(
-          child: Switch(
-            value: switchValue,
-            onChanged: (value) {
-              // 변수값이 바뀜을 앱에 알려 화면을 갱신시킴
-              // 화면의 값을 바꾸려면 setState() 함수 안에서 해야 함
-              setState(() {
-                print(value);
-                switchValue = value;
-              });
-            },
-          ),
+          child: ElevatedButton(
+            child: Text(
+              '$test',
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(_color)
+            ),
+            onPressed: () {
+              if (test == 'hello') {
+                setState(() {
+                  test = 'flutter';
+                  _color = Colors.amber;
+                });
+              } else {
+                setState(() {
+                  test = 'hello';
+                  _color = Colors.black12;
+                });
+              }
+            }
+          )
         ),
       )
     );
