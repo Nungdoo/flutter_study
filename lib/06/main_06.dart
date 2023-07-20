@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import './animalItem.dart';
 import './cupertinoFirstPage.dart';
+import './cupertinoSecondPage.dart';
 
 void main() {
   runApp(CupertinoMain());
@@ -47,11 +48,7 @@ class _CupertinoMain extends State<CupertinoMain> {
           if (value == 0) {
             return CupertinoFirstPage(animalList: animalList);
           } else {
-            return Container(
-              child: Center(
-                child: Text('cupertino tab 2'),
-              ),
-            );
+            return CupertinoSecondPage(animalList: animalList);
           }
         },
       ),
