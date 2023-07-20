@@ -13,6 +13,7 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    print('createState');
     return _MyApp();
   }
 }
@@ -22,9 +23,22 @@ class _MyApp extends State<MyApp> {
   String test = 'hello';
   Color _color = Colors.black12;
 
+  @override
+  void initState() {
+    super.initState();
+    print('initState');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('didChangeDependencies');
+  }
+
   // build 함수 재정의, 어떤 위젯을 만들건지 정의
   @override
   Widget build(BuildContext context) {
+    print('build');
     // runApp()을 이용해 클래스를 실행할 때는 MaterialApp() 함수가 반환되어야 함
     return MaterialApp(
       title: 'Flutter Demo',
