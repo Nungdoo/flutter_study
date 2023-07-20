@@ -59,6 +59,14 @@ flutter:
   uses-material-design: true
   assets:
     - image/flutter_logo.png
+    - image/bee.png
+    - image/cat.png
+    - image/cow.png
+    - image/dog.png
+    - image/fox.png
+    - image/monkey.png
+    - image/pig.png
+    - image/wolf.png
   fonts:
     - family: VT323
       fonts:
