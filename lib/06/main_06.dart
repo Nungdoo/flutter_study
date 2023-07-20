@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import './animalItem.dart';
+import './cupertinoFirstPage.dart';
 
 void main() {
   runApp(CupertinoMain());
@@ -13,6 +15,7 @@ class CupertinoMain extends StatefulWidget {
 
 class _CupertinoMain extends State<CupertinoMain> {
   CupertinoTabBar? tabBar;
+  List<Animal> animalList = new List.empty(growable: true);
 
   @override
   void initState() {
@@ -23,6 +26,14 @@ class _CupertinoMain extends State<CupertinoMain> {
           BottomNavigationBarItem(icon: Icon(CupertinoIcons.add)),
         ]
     );
+    animalList.add(Animal(animalName: "벌", kind: "곤충", imagePath: "image/bee.png"));
+    animalList.add(Animal(animalName: "고양이", kind: "포유류", imagePath: "image/cat.png"));
+    animalList.add(Animal(animalName: "젖소", kind: "포유류", imagePath: "image/cow.png"));
+    animalList.add(Animal(animalName: "강아지", kind: "포유류", imagePath: "image/dog.png"));
+    animalList.add(Animal(animalName: "여우", kind: "포유류", imagePath: "image/fox.png"));
+    animalList.add(Animal(animalName: "원숭이", kind: "영장류", imagePath: "image/monkey.png"));
+    animalList.add(Animal(animalName: "돼지", kind: "포유류", imagePath: "image/pig.png"));
+    animalList.add(Animal(animalName: "늑대", kind: "포유류", imagePath: "image/wolf.png"));
   }
 
   @override
@@ -34,11 +45,7 @@ class _CupertinoMain extends State<CupertinoMain> {
         tabBar: tabBar!,
         tabBuilder: (context, value) {
           if (value == 0) {
-            return Container(
-              child: Center(
-                child: Text('cupertino tab 1'),
-              ),
-            );
+            return CupertinoFirstPage(animalList: animalList);
           } else {
             return Container(
               child: Center(
