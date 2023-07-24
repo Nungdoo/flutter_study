@@ -21,18 +21,25 @@ class HttpApp extends StatefulWidget {
 class _HttpApp extends State<HttpApp> {
   String result = '';
   List? data;
+  TextEditingController? _editingController;
 
   @override
   void initState() {
     super.initState();
     data = new List.empty(growable: true);
+    _editingController = new TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Http Example'),
+        title: TextField(
+          controller: _editingController,
+          style: TextStyle(color: Colors.white),
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(hintText: '검색어를 입력하세요'),
+        )
       ),
       body: Container(
         child: Center(
@@ -86,7 +93,7 @@ class _HttpApp extends State<HttpApp> {
   // 비동기로 데이터 주고 받음
   // Future : 비동기 처리에서 데이터를 바로 처리할 수 없을 때 사용
   Future<String> getJSONData() async {
-    var uri = "https://dapi.kakao.com/v3/search/book?target=title&query=doit";
+    var uri = "https://dapi.kakao.com/v3/search/book?target=title&query=${_editingController?.value.text}";
     // url 주소에 데이터 요청
     var response = await http.get(Uri.parse(uri), headers: {
       "Authorization": "KakaoAK c53bd8a1e14013f3d60f909fb9fc95df"
