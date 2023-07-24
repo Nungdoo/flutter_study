@@ -22,12 +22,25 @@ class _HttpApp extends State<HttpApp> {
   String result = '';
   List? data;
   TextEditingController? _editingController;
+  ScrollController? _scrollController;
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
     data = new List.empty(growable: true);
     _editingController = new TextEditingController();
+    _scrollController = new ScrollController();
+
+    // 스크롤할 때 이벤트 받도록 처리
+    // offset : 목록에서 현재 위치를 double형 변수로 나타냄
+    _scrollController!.addListener(() {
+      if (_scrollController!.offset >= _scrollController!.position.maxScrollExtent && !_scrollController!.position.outOfRange) {
+        print('bottom');
+        page++;
+        getJSONData();
+      }
+    });
   }
 
   @override
@@ -78,11 +91,14 @@ class _HttpApp extends State<HttpApp> {
                 );
               },
             itemCount: data!.length,
+            controller: _scrollController,
           )
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          page = 1;
+          data!.clear();
           getJSONData();
         },
         child: Icon(Icons.file_download),
@@ -93,7 +109,7 @@ class _HttpApp extends State<HttpApp> {
   // 비동기로 데이터 주고 받음
   // Future : 비동기 처리에서 데이터를 바로 처리할 수 없을 때 사용
   Future<String> getJSONData() async {
-    var uri = "https://dapi.kakao.com/v3/search/book?target=title&query=${_editingController?.value.text}";
+    var uri = 'https://dapi.kakao.com/v3/search/book?target=title&page=$page&query=${_editingController!.value.text}';
     // url 주소에 데이터 요청
     var response = await http.get(Uri.parse(uri), headers: {
       "Authorization": "KakaoAK c53bd8a1e14013f3d60f909fb9fc95df"
