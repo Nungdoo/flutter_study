@@ -10,7 +10,16 @@ class myApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirstPage()
+      // home: FirstPage()
+
+      // 처음 앱을 시작했을 때 보여줄 경로
+      initialRoute: '/',
+
+      // String : Widget 형태로 경로 선언
+      routes: {
+        '/': (context) => FirstPage(),
+        '/second': (context) => SecondPage()
+      },
     );
   }
 }
@@ -38,7 +47,10 @@ class _FirstPage extends State<FirstPage> {
           // of(context) : 현재 페이지를 나타냄
           // push : 스택에 페이지를 쌓음
           // -> 현재 페이지 위에 SecondPage를 쌓음
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondPage()));
+          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondPage()));
+
+          // pushNamed() : routes에 선언한 경로를 이용해 페이지 이동
+          Navigator.of(context).pushNamed('/second');
         },
         child: Icon(Icons.add),
       ),
@@ -57,7 +69,10 @@ class SecondPage extends StatelessWidget {
         child: Center(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop(); // 현재 페이지 종료
+              // 현재 페이지 종료
+              // Navigator.of(context).pop();
+
+              Navigator.of(context).pushNamed('/');
             },
             child: Text('돌아가기'),
           ),
