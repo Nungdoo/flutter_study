@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'largeFileMain.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +44,18 @@ class _FileApp extends State<FileApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('File Example'),
+        title: Text('로고바꾸기'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LargeFileMain()));
+            },
+            child: Text(
+              '로고바꾸기',
+              style: TextStyle(color: Colors.white),
+            )
+          )
+        ],
       ),
       body: Container(
         child: Center(
