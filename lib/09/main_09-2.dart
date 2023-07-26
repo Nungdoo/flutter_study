@@ -76,6 +76,10 @@ class _FileApp extends State<FileApp> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          writeFruit(controller.value.text);
+          setState(() {
+            itemList.add(controller.value.text);
+          });
         },
         child: Icon(Icons.add),
       ),
@@ -141,5 +145,12 @@ class _FileApp extends State<FileApp> {
       }
       return itemList;
     }
+  }
+
+  void writeFruit(String fruit) async {
+    var dir = await getApplicationDocumentsDirectory();
+    var file = await File(dir.path + '/fruit.txt').readAsString();
+    file = file + '\n' + fruit;
+    File(dir.path + '/fruit.txt').writeAsStringSync(file);
   }
 }
