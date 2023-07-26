@@ -71,6 +71,7 @@ flutter:
     - image/monkey.png
     - image/pig.png
     - image/wolf.png
+    - repo/fruit.txt
   fonts:
     - family: VT323
       fonts:
