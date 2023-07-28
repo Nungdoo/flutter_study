@@ -82,14 +82,49 @@ class _DatabaseApp extends State<DatabaseApp> {
                     return ListView.builder(
                       itemBuilder: (context, index) {
                         Todo todo = (snapshot.data as List<Todo>)[index];
-                        return Card(
-                          child: Column(
-                            children: <Widget>[
-                              Text(todo.title!),
-                              Text(todo.content!),
-                              Text('${todo.active == 1 ? 'true' : 'false'}'),
-                            ],
+                        return ListTile( // 클릭할 수 있는 onTap() 함수가 포함된 목록을 만듦
+                          title: Text(todo.title!, style: TextStyle(fontSize: 20),),
+                          subtitle: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text(todo.content!),
+                                Text('체크 : ${todo.active == 1 ? 'true' : 'false'}'),
+                                Container(
+                                  height: 1,
+                                  color: Colors.blue,
+                                )
+                              ],
+                            ),
                           ),
+                          onTap: () async {
+                            Todo result = await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('${todo.id} : ${todo.title}'),
+                                  content: Text('Todo를 체크하시겠습니까?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          todo.active == 1 ? todo.active = 0 : todo.active = 1;
+                                        });
+                                        Navigator.of(context).pop(todo);
+                                      },
+                                      child: Text('예')
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(todo);
+                                        },
+                                        child: Text('아니오')
+                                    ),
+                                  ],
+                                );
+                              }
+                            );
+                            _updateTodo(result);
+                          },
                         );
                       },
                       itemCount: (snapshot.data as List<Todo>).length,
@@ -141,6 +176,19 @@ class _DatabaseApp extends State<DatabaseApp> {
         active: active,
         id: maps[index]['id'],
       );
+    });
+  }
+
+  void _updateTodo(Todo todo) async {
+    final Database database = await widget.db;
+    await database.update(
+      'todos',
+      todo.toMap(),
+      where: 'id = ?',      // 어떤 데이터를 수정할 것인지
+      whereArgs: [todo.id], // ? 가 whereArgs와 대응됨
+    );
+    setState(() {
+      todoList = getTodos();
     });
   }
 }
