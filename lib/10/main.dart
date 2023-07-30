@@ -1,4 +1,3 @@
-import 'package:first_flutter_app/10/clearList.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -185,16 +184,34 @@ class _DatabaseApp extends State<DatabaseApp> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final todo = await Navigator.of(context).pushNamed('/add');
-          if (todo != null) {
-            _insertTodo(todo as Todo);
-          }
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: Column(
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () async {
+              final todo = await Navigator.of(context).pushNamed('/add');
+              if (todo != null) {
+                _insertTodo(todo as Todo);
+              }
+            },
+            // heroTag를 null로 설정하지 않으면,
+            // 화면을 넘길 때 플러터에서 자연스러운 애니메이션을 자동으로 추가하는데,
+            // 페이지가 넘어가는 위젯에 받아줄 태그가 없어서 에러 발생
+            heroTag: null,
+            child: Icon(Icons.add),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            onPressed: () async {
+              _allUpdate();
+            },
+            heroTag: null,
+            child: Icon(Icons.update),
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.end,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -244,6 +261,14 @@ class _DatabaseApp extends State<DatabaseApp> {
       where: 'id = ?',
       whereArgs: [todo.id]
     );
+    setState(() {
+      todoList = getTodos();
+    });
+  }
+
+  void _allUpdate() async {
+    final Database database = await widget.db;
+    await database.rawUpdate('update todos set active=1 where active=0');
     setState(() {
       todoList = getTodos();
     });
