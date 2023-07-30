@@ -125,6 +125,32 @@ class _DatabaseApp extends State<DatabaseApp> {
                             );
                             _updateTodo(result);
                           },
+                          onLongPress: () async {
+                            Todo result = await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('${todo.id} : ${todo.title}'),
+                                  content: Text('${todo.content}를 삭제하시겠습니까?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(todo);
+                                      },
+                                      child: Text('예')
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('아니오')
+                                    ),
+                                  ],
+                                );
+                              }
+                            );
+                            _deleteTodo(result);
+                          },
                         );
                       },
                       itemCount: (snapshot.data as List<Todo>).length,
@@ -186,6 +212,18 @@ class _DatabaseApp extends State<DatabaseApp> {
       todo.toMap(),
       where: 'id = ?',      // 어떤 데이터를 수정할 것인지
       whereArgs: [todo.id], // ? 가 whereArgs와 대응됨
+    );
+    setState(() {
+      todoList = getTodos();
+    });
+  }
+
+  void _deleteTodo(Todo todo) async {
+    final Database database = await widget.db;
+    await database.delete(
+      'todos',
+      where: 'id = ?',
+      whereArgs: [todo.id]
     );
     setState(() {
       todoList = getTodos();
