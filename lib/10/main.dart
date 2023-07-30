@@ -1,8 +1,10 @@
+import 'package:first_flutter_app/10/clearList.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'todo.dart';
 import 'addTodo.dart';
+import 'clearList.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +25,8 @@ class MyApp extends StatelessWidget {
       routes: {
         // 각 클래스를 호출하면서 database 객체를 전달함
         '/': (context) => DatabaseApp(database),
-        '/add': (context) => AddTodoApp(database)
+        '/add': (context) => AddTodoApp(database),
+        '/clear': (context) => ClearListApp(database),
       },
     );
   }
@@ -65,7 +68,23 @@ class _DatabaseApp extends State<DatabaseApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Database Example'),),
+      appBar: AppBar(
+        title: Text('Database Example'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              await Navigator.of(context).pushNamed('/clear');
+              setState(() {
+                todoList = getTodos();
+              });
+            },
+            child: Text(
+              '완료한 일',
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        ],
+      ),
       body: Container(
         child: Center(
           child: FutureBuilder( // 서버에서 데이터를 받거나 파일에서 데이터를 가져올 때 사용
