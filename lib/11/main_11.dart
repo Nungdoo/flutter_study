@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'people.dart';
+import 'secondPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,52 +48,53 @@ class _AnimationApp extends State<AnimationApp> {
       body: Container(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AnimatedOpacity(
                 opacity: _opacity,
                 duration: Duration(seconds: 1),
                 child: SizedBox(
+                  height: 200,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(width: 100, child: Text('이름 : ${peoples[current].name}'),),
                       AnimatedContainer(
                         duration: Duration(seconds: 2),
                         curve: Curves.bounceIn,
                         color: Colors.amber,
+                        width: 50,
+                        height: peoples[current].height,
                         child: Text(
                           '키 ${peoples[current].height}',
                           textAlign: TextAlign.center,
                         ),
-                        width: 50,
-                        height: peoples[current].height,
                       ),
                       AnimatedContainer(
                         duration: Duration(seconds: 2),
                         curve: Curves.easeInCubic,
                         color: weightColor,
+                        width: 50,
+                        height: peoples[current].weight,
                         child: Text(
                           '몸무게 ${peoples[current].weight}',
                           textAlign: TextAlign.center,
                         ),
-                        width: 50,
-                        height: peoples[current].weight,
                       ),
                       AnimatedContainer(
                         duration: Duration(seconds: 2),
                         curve: Curves.linear,
                         color: Colors.pinkAccent,
+                        width: 50,
+                        height: peoples[current].bmi,
                         child: Text(
                           'bmi ${peoples[current].bmi}',
                           textAlign: TextAlign.center,
                         ),
-                        width: 50,
-                        height: peoples[current].bmi,
                       ),
                     ],
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                   ),
-                  height: 200,
                 ),
               ),
               ElevatedButton(
@@ -125,8 +127,24 @@ class _AnimationApp extends State<AnimationApp> {
                 },
                 child: Text('사라지기'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondPage()));
+                  });
+                },
+                child: SizedBox(
+                  width: 200,
+                  child: Row(
+                    children: <Widget>[
+                      // 같은 detail 태크의 다른 Hero 위젯과 연결됨
+                      Hero(tag: 'detail', child: Icon(Icons.cake),),
+                      Text('이동하기')
+                    ],
+                  ),
+                ),
+              ),
             ],
-            mainAxisAlignment: MainAxisAlignment.center,
           ),
         ),
       ),
