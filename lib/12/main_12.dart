@@ -41,6 +41,8 @@ class _NativeApp extends State<NativeApp> {
   // 전달받은 기기 정보를 저장
   String _deviceInfo = 'Unknown info';
 
+  static const platform3 = const MethodChannel('com.flutter.dev/dialog');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +51,19 @@ class _NativeApp extends State<NativeApp> {
       ),
       body: Container(
         child: Center(
-          child: Text(
-            _deviceInfo,
-            style: TextStyle(fontSize: 30),
+          child: Column(
+            children: <Widget>[
+              Text(
+                _deviceInfo,
+                style: TextStyle(fontSize: 30),
+              ),
+              TextButton(
+                onPressed: () {
+                  _showDialog();
+                },
+                child: Text('네이티브 창 열기')
+              )
+            ],
           ),
         ),
       ),
@@ -78,5 +90,13 @@ class _NativeApp extends State<NativeApp> {
     setState(() {
       _deviceInfo = deviceInfo;
     });
+  }
+
+  Future<void> _showDialog() async {
+    try {
+      await platform3.invokeMethod('showDialog');
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 }

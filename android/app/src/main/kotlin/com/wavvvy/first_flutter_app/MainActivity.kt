@@ -6,11 +6,13 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.util.Base64
+import android.app.AlertDialog
 
 class MainActivity: FlutterActivity() {
     // 플러터 프로젝트에서 작성했던 메서드 채널의 키값
     private val CHANNEL = "com.flutter.dev/info"
     private val CHANNEL2 = "com.flutter.dev/encrypto"
+    private val CHANNEL3 = "com.flutter.dev/dialog"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         // 메서드 채널로 들어오는 요청에 응답
@@ -21,7 +23,7 @@ class MainActivity: FlutterActivity() {
                     val deviceInfo = getDeviceInfo()
                     result.success(deviceInfo)
                 }
-        }
+            }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL2)
             .setMethodCallHandler { call, result ->
                 if (call.method == "getEncrypto") {
@@ -34,6 +36,13 @@ class MainActivity: FlutterActivity() {
                     result.success(String(changedText))
                 }
             }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL3)
+            .setMethodCallHandler { call, result ->
+                if (call.method == "showDialog") {
+                    AlertDialog.Builder(this).setTitle("Flutter").setMessage("네이티브에서 출력하는 창입니다.").show()
+                }
+            }
+
     }
 
     private fun getDeviceInfo() : String {
