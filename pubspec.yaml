@@ -41,6 +41,9 @@ dependencies:
   shared_preferences: 2.2.0
   sqflite: ^2.3.0             # SQLite 관련 패키지
   path: ^1.8.3                # 내부 저장소 관련 패키지
+  firebase_core: ^2.15.0      # 파이어베이스 기본 패키지
+  firebase_analytics: ^10.4.4 # 파이어베이스 애널리틱스 패키지
+  firebase_database: ^10.2.4  # 파이어베이스 데이터베이스 패키지
 
 dev_dependencies:
   flutter_test:
