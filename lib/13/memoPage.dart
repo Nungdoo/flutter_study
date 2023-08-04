@@ -68,6 +68,34 @@ class _MemoPage extends State<MemoPage> {
                         },
                         onLongPress: () {
                           // 메모 삭제
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(memos[index].title!),
+                                content: Text('삭제하시겠습니까?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      reference!.child(memos[index].key!).remove().then((_) {
+                                        setState(() {
+                                          memos.removeAt(index);
+                                          Navigator.of(context).pop();
+                                        });
+                                      });
+                                    },
+                                    child: Text('예')
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('아니요')
+                                  ),
+                                ],
+                              );
+                            }
+                          );
                         },
                         child: Text(memos[index].content!),
                       ),
