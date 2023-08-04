@@ -45,6 +45,7 @@ dependencies:
   firebase_analytics: ^10.4.4 # 파이어베이스 애널리틱스 패키지
   firebase_database: ^10.2.4  # 파이어베이스 데이터베이스 패키지
   firebase_messaging: ^14.6.5 # 파이어베이스 메시징 패키지
+  google_mobile_ads: ^3.0.0   # 파이어베이스 애드몹 패키지
 
 dev_dependencies:
   flutter_test:

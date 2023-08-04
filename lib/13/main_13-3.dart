@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
 import 'memoPage.dart';
 
@@ -11,6 +12,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized()를 통해 플랫폼 채널의 위젯 바인딩을 보장해야 함
   */
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(MyApp());
 }
 
