@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'memo.dart';
 import 'memoAdd.dart';
+import 'memoDetail.dart';
 
 class MemoPage extends StatefulWidget {
   @override
@@ -51,8 +52,19 @@ class _MemoPage extends State<MemoPage> {
                     padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: SizedBox(
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           // 메모 상세보기 화면으로 이동
+                          Memo? memo = await Navigator.of(context).push(
+                            MaterialPageRoute<Memo>(
+                              builder: (BuildContext context) => MemoDetailPage(reference!, memos[index])
+                            )
+                          );
+                          if (memo != null) {
+                            setState(() {
+                              memos[index].title = memo.title;
+                              memos[index].content = memo.content;
+                            });
+                          }
                         },
                         onLongPress: () {
                           // 메모 삭제
